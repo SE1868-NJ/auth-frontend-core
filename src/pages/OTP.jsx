@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import AuthService from "../services/Auth";
 import { useUserStore } from "../stores/UserStore";
 
-const LoginPage = () => {
+const OTPPage = () => {
   const { setToken } = useUserStore();
   const { register, handleSubmit, formState } = useForm();
   const { errors } = formState;
@@ -169,4 +169,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default OTPPage;

@@ -13,57 +13,67 @@ import LoginPage from "./pages/LoginPage.jsx";
 import RolesPage from "./pages/RolesPage.jsx";
 import SignUpPage from "./pages/SignUpPage.jsx";
 import UsersPage from "./pages/UsersPage.jsx";
+import ChangePassPage from "./pages/ChangePassPage.jsx";
+// import OTPPage from "./pages/OTPPage.jsx";
 
 const theme = createTheme({
-    /** Put your mantine theme override here */
+  /** Put your mantine theme override here */
 });
 
 const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <LoginPage />,
-    },
-    {
-        path: "/signup",
-        element: <SignUpPage />,
-    },
-    {
+  {
+    path: "/",
+    element: <LoginPage />,
+  },
+  {
+    path: "/signup",
+    element: <SignUpPage />,
+  },
+  {
+    path: "/changepassword",
+    element: <ChangePassPage />,
+  },
+  // {
+  //   path: "/otp",
+  //   element: <OTPPage />,
+  // },
+  {
+    path: "/main/",
+    element: <Layout />,
+    children: [
+      {
         path: "/main/",
-        element: <Layout />,
-        children: [
-            {
-                path: "/main/",
-                element: <div>Home</div>,
-            },
-            {
-                path: "/main/users",
-                element: <UsersPage />,
-            },
-            {
-                path: "/main/roles",
-                element: <RolesPage />,
-            },
-            {
-                path: "*",
-                element: <ErrorPage />,
-            },
-        ],
-    },
+        element: <div>Home</div>,
+      },
+      {
+        path: "/main/users",
+        element: <UsersPage />,
+      },
+      {
+        path: "/main/roles",
+        element: <RolesPage />,
+      },
+      {
+        path: "*",
+        element: <ErrorPage />,
+      },
+    ],
+  },
 ]);
 
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")).render(
-    <StrictMode>
-        {/* khong can quan tam */}
-        <QueryClientProvider client={queryClient}>
-            {/* provider cua thu vien ui */}
-            <MantineProvider theme={theme}>
-                {/* toast thong bao */}
-                <Notifications />
-                {/* routes */}
-                <RouterProvider router={router} />
-            </MantineProvider>
-        </QueryClientProvider>
-    </StrictMode>,
+  <StrictMode>
+    {/* khong can quan tam */}
+    <QueryClientProvider client={queryClient}>
+      {/* provider cua thu vien ui */}
+      <MantineProvider theme={theme}>
+        {/* toast thong bao */}
+        <Notifications />
+        {/* routes */}
+        <RouterProvider router={router} />
+      </MantineProvider>
+    </QueryClientProvider>
+  </StrictMode>
 );
