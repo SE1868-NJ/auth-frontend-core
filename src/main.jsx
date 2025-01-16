@@ -12,6 +12,7 @@ import ErrorPage from "./pages/ErrorPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import RolesPage from "./pages/RolesPage.jsx";
 import SignUpPage from "./pages/SignUpPage.jsx";
+import UpdatePage from "./pages/UpdatePage.jsx";
 import UsersPage from "./pages/UsersPage.jsx";
 
 const theme = createTheme({
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
             {
                 path: "/main/roles",
                 element: <RolesPage />,
+            },
+            {
+                path: "/main/update",
+                element: <UpdatePage />,
             },
             {
                 path: "*",

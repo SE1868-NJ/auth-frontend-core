@@ -3,6 +3,7 @@ import { People } from "iconsax-react";
 import { UserEdit } from "iconsax-react";
 import { ArrowLeft } from "iconsax-react";
 import { ArrowRight } from "iconsax-react";
+import { User } from "iconsax-react";
 import { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import { useNavbarStore } from "../stores/NavbarStore";
@@ -11,6 +12,7 @@ import AuthWrapper from "./AuthWrapper";
 const navItems = [
     { link: "/main/users", label: "Users management", icon: UserEdit },
     { link: "/main/roles", label: "Roles management", icon: People },
+    { link: "/main/update", label: "Users update", icon: User },
 ];
 
 const Layout = () => {
