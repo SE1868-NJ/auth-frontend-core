@@ -17,9 +17,11 @@ import ErrorPage from "./pages/ErrorPage.jsx";
 import ForgotPassPage from "./pages/ForgotPassPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import OTPPage from "./pages/OTPPage.jsx";
+import OperatorsDetailPage from "./pages/OperatorsDetailPage.jsx";
 import OperatorsPage from "./pages/OperatorsPage.jsx";
 import RolesPage from "./pages/RolesPage.jsx";
 import SignUpPage from "./pages/SignUpPage.jsx";
+import UpdatePage from "./pages/UpdatePage.jsx";
 import UsersPage from "./pages/UsersPage.jsx";
 
 const theme = createTheme({
@@ -64,8 +66,18 @@ const router = createBrowserRouter([
                 element: <RolesPage />,
             },
             {
+                path: "/main/update",
+                element: <UpdatePage />,
+            },
+            {
                 path: "/main/operators",
                 element: <OperatorsPage />,
+                children: [
+                    {
+                        path: ":id",
+                        element: <OperatorsDetailPage />,
+                    },
+                ],
             },
             {
                 path: "*",
@@ -86,6 +98,11 @@ createRoot(document.getElementById("root")).render(
                 {/* toast thong bao */}
                 <Notifications />
                 {/* routes */}
+                <DatesProvider
+                    settings={{ locale: "vn", firstDayOfWeek: 1, timezone: "Asia/Ho_Chi_Minh" }}
+                >
+                    <RouterProvider router={router} />
+                </DatesProvider>
                 <DatesProvider
                     settings={{ locale: "vn", firstDayOfWeek: 1, timezone: "Asia/Ho_Chi_Minh" }}
                 >

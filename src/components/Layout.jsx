@@ -4,6 +4,7 @@ import { UserEdit } from "iconsax-react";
 import { ArrowLeft } from "iconsax-react";
 import { ArrowRight } from "iconsax-react";
 import { Logout } from "iconsax-react";
+import { User } from "iconsax-react";
 import { useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useNavbarStore } from "../stores/NavbarStore";
@@ -13,6 +14,7 @@ const navItems = [
     { link: "/main/users", label: "Users management", icon: UserEdit },
     { link: "/main/roles", label: "Roles management", icon: People },
     { link: "/main/operators", label: "Operators management", icon: People },
+    { link: "/main/update", label: "Users update", icon: User },
 ];
 
 const Layout = () => {
