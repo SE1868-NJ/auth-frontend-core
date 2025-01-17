@@ -89,7 +89,7 @@ const OperatorsDetailPage = () => {
                                 onChange={(e) => setStatus(e.target.value)}
                             >
                                 <option value="Active">Active</option>
-                                <option value="Inactive">Inactive</option>
+                                <option value="Inactive">Deactive</option>
                             </select>
                         </div>
                     </>
