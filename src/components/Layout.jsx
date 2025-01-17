@@ -12,6 +12,7 @@ import AuthWrapper from "./AuthWrapper";
 const navItems = [
     { link: "/main/users", label: "Users management", icon: UserEdit },
     { link: "/main/roles", label: "Roles management", icon: People },
+    { link: "/main/operators", label: "Operators management", icon: People },
     { link: "/main/update", label: "Users update", icon: User },
 ];
 

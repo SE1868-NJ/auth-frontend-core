@@ -1,25 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import instance from "../lib/axios";
 
-function UpdatePage() {
-    const [operator, setOperator] = useState({
-        user_id: 1,
-        firstname: "Việt",
-        lastname: "Nguyễn Thanh",
-        email: "vietnthe186437@fpt.edu.vn",
-        phone: "0925697054",
-        dob: "2004-01-09",
-        gender: "Male",
-        role: "Admin",
-        status: "Active",
-    });
-
+const OperatorsDetailPage = () => {
     const { state } = useLocation();
     const navigate = useNavigate();
 
-    // const [operator, setOperator] = useState(state?.operator || null);
+    const [operator, setOperator] = useState(state?.operator || null);
     const {
         register,
         handleSubmit,
@@ -34,22 +21,8 @@ function UpdatePage() {
     }, [operator, reset]);
 
     const onSubmit = (data) => {
-        const newData = {
-            ...data,
-            gender: data.gender.toLowerCase(),
-            status: data.status.toLowerCase(),
-        };
-        instance
-            .patch(`/operators/update/${operator.user_id}`, newData)
-            .then((res) => {
-                console.log(res.data);
-                alert("Operator details updated successfully!");
-                setOperator(data);
-                navigate("/main/update");
-            })
-            .catch((err) => {
-                console.error(err);
-            });
+        alert("Operator details updated successfully!");
+        navigate("/main/operators");
     };
 
     if (!operator) return <div>Loading...</div>;
@@ -70,7 +43,6 @@ function UpdatePage() {
                             id="firstname"
                             type="text"
                             defaultValue={operator.firstname}
-                            // value={operator.firstname}
                             {...register("firstname", { required: "First name is required" })}
                             className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         />
@@ -176,7 +148,6 @@ function UpdatePage() {
                         <select
                             id="status"
                             defaultValue={operator.status}
-                            disabled={operator.role !== "Admin"}
                             {...register("status", { required: "Status is required" })}
                             className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         >
@@ -200,24 +171,24 @@ function UpdatePage() {
                         />
                     </div>
                 </div>
-                <div className="flex justify-start space-x-4">
+                <div className="flex justify-between items-center">
                     <button
                         type="submit"
                         className="bg-blue-500 text-white py-2 px-6 rounded-md hover:bg-blue-600 transition duration-300"
                     >
-                        Save
+                        Update Details
                     </button>
                     <button
                         type="button"
-                        onClick={() => navigate("/main/")}
+                        onClick={() => navigate("/main/operators")}
                         className="bg-gray-300 text-black py-2 px-6 rounded-md hover:bg-gray-400 transition duration-300"
                     >
-                        Exit
+                        Back to Operators
                     </button>
                 </div>
             </form>
         </div>
     );
-}
+};
 
-export default UpdatePage;
+export default OperatorsDetailPage;
