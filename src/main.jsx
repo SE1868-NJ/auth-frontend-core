@@ -103,6 +103,11 @@ createRoot(document.getElementById("root")).render(
                 >
                     <RouterProvider router={router} />
                 </DatesProvider>
+                <DatesProvider
+                    settings={{ locale: "vn", firstDayOfWeek: 1, timezone: "Asia/Ho_Chi_Minh" }}
+                >
+                    <RouterProvider router={router} />
+                </DatesProvider>
             </MantineProvider>
         </QueryClientProvider>
     </StrictMode>,
