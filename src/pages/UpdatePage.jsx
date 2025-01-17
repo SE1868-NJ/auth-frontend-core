@@ -5,7 +5,7 @@ import instance from "../lib/axios";
 
 function UpdatePage() {
     const [operator, setOperator] = useState({
-        user_id: 1,
+        id: 1,
         firstname: "Việt",
         lastname: "Nguyễn Thanh",
         email: "vietnthe186437@fpt.edu.vn",
@@ -40,7 +40,7 @@ function UpdatePage() {
             status: data.status.toLowerCase(),
         };
         instance
-            .patch(`/operators/update/${operator.user_id}`, newData)
+            .patch(`/operators/update/${operator.id}`, newData)
             .then((res) => {
                 console.log(res.data);
                 alert("Operator details updated successfully!");
@@ -48,6 +48,7 @@ function UpdatePage() {
                 navigate("/main/update");
             })
             .catch((err) => {
+                alert("Updated unsuccessfully!");
                 console.error(err);
             });
     };

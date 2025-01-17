@@ -3,9 +3,10 @@ import { People } from "iconsax-react";
 import { UserEdit } from "iconsax-react";
 import { ArrowLeft } from "iconsax-react";
 import { ArrowRight } from "iconsax-react";
+import { Logout } from "iconsax-react";
 import { User } from "iconsax-react";
 import { useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useNavbarStore } from "../stores/NavbarStore";
 import AuthWrapper from "./AuthWrapper";
 
@@ -19,6 +20,7 @@ const navItems = [
 const Layout = () => {
     const { isOpen, toggle } = useNavbarStore();
     const [active, setActive] = useState("Users management");
+    const navigate = useNavigate();
 
     const links = navItems.map((item) => {
         return (
@@ -53,10 +55,14 @@ const Layout = () => {
                     {/* button toogle navbar */}
                     <button
                         type="button"
-                        onClick={toggle}
-                        className="absolute bottom-0 flex items-center justify-center right-0 left-0 py-4 hover:bg-blue-200"
+                        onClick={() => {
+                            localStorage.clear("token");
+                            navigate("/");
+                        }}
+                        className="absolute bottom-0 flex items-center justify-center right-0 left-0 py-4 hover:bg-blue-200 space-x-3"
                     >
-                        {isOpen ? <ArrowLeft /> : <ArrowRight />}
+                        {/* {isOpen ? <ArrowLeft /> : <ArrowRight />} */}
+                        <Logout /> <span>Đăng xuất</span>
                     </button>
                 </AppShell.Navbar>
 

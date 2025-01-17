@@ -1,32 +1,32 @@
 import { Button, Input } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useCurrentUser } from "../hooks/useCurrentUser";
 import AuthService from "../services/Auth";
-import { useUserStore } from "../stores/UserStore";
 
 const LoginPage = () => {
-    const { setToken } = useUserStore();
+    const { error } = useCurrentUser();
     const { register, handleSubmit, formState } = useForm();
     const { errors } = formState;
     const navigate = useNavigate();
 
     //  if authenticated, navigate to dashboard
-    // useEffect(() => {
-    //     if (!isAuthenticated) navigate("/main");
-    // }, [isAuthenticated, navigate]);
+    useEffect(() => {
+        if (!error) navigate("/main");
+    }, [error, navigate]);
 
     const onSubmit = async (data) => {
         // destructuring
         const { email, password } = data;
 
         await AuthService.login(email, password)
-            .then(({ token }) => {
+            .then(() => {
                 notifications.show({
                     title: "Đăng nhập thành công!",
                 });
                 navigate("/main");
-                setToken(token);
             })
             .catch((err) => {
                 console.error(err);
@@ -45,13 +45,13 @@ const LoginPage = () => {
                     Sign In
                 </h2>
                 <p className="text-center text-sm text-gray-600 mt-2">
-                    You don't have an account?{" "}
-                    <a
-                        href="http://localhost:5173/signup"
+                    You don&apost; have an account?{" "}
+                    <Link
+                        to="/signup"
                         className="text-blue-600 hover:text-blue-700 hover:underline"
                     >
                         Sign up here
-                    </a>
+                    </Link>
                 </p>
                 <form onSubmit={handleSubmit(onSubmit)} className="my-8 text-sm">
                     <div className="flex flex-col my-4">
@@ -60,6 +60,7 @@ const LoginPage = () => {
                         </label>
                         <Input
                             id="email"
+                            type="email"
                             placeholder="abc@gmail.com"
                             {...register("email", {
                                 required: "Không được để trống mục này!",
