@@ -135,7 +135,7 @@ const SignUpPage = () => {
                         <Input
                             id="password"
                             type="password"
-                            placeholder="Enter your password"
+                            placeholder="Nhập mật khẩu của bạn"
                             {...register("password", {
                                 required: "Không được để trống mục này!",
                             })}
@@ -184,19 +184,19 @@ const SignUpPage = () => {
                             className="mr-2 focus:ring-0 rounded"
                         />
                         <label htmlFor="remember_me" className="text-gray-700">
-                            I accept the{" "}
+                            Tôi chấp nhận các{" "}
                             <a
                                 href="/"
                                 className="text-blue-600 hover:text-blue-700 hover:underline"
                             >
-                                terms
+                                điều khoản
                             </a>{" "}
-                            and{" "}
+                            và{" "}
                             <a
                                 href="/"
                                 className="text-blue-600 hover:text-blue-700 hover:underline"
                             >
-                                privacy policy
+                                chính sách bảo mật.
                             </a>
                         </label>
                     </div>
@@ -205,14 +205,14 @@ const SignUpPage = () => {
                             type="submit"
                             className="bg-blue-600 hover:bg-blue-700 px-8 py-2 text-white rounded-lg transition duration-150"
                         >
-                            Sign up
+                            Đăng ký
                         </Button>
                     </div>
                 </form>
 
                 <div className="flex items-center justify-between my-4">
                     <div className="w-full h-[1px] bg-gray-300" />
-                    <span className="text-sm uppercase mx-6 text-gray-400">Or</span>
+                    <span className="text-sm uppercase mx-6 text-gray-400">Hoặc</span>
                     <div className="w-full h-[1px] bg-gray-300" />
                 </div>
 
@@ -249,7 +249,7 @@ const SignUpPage = () => {
                                 fill="#ea4335"
                             />
                         </svg>
-                        <span>Sign up with Google</span>
+                        <span>Đăng ký với Google</span>
                     </a>
                 </div>
             </div>
