@@ -42,15 +42,15 @@ const LoginPage = () => {
         <div className="w-full min-h-screen flex items-center justify-center bg-gray-100">
             <div className="w-full sm:w-5/6 md:w-2/3 lg:w-1/2 xl:w-1/3 2xl:w-1/4 bg-white p-8 shadow-lg rounded-lg">
                 <h2 className="text-center text-2xl font-bold tracking-wide text-gray-800">
-                    Sign In
+                    Đăng nhập
                 </h2>
                 <p className="text-center text-sm text-gray-600 mt-2">
-                    You don&apost; have an account?{" "}
+                    Bạn chưa có tài khoản?{" "}
                     <Link
                         to="/signup"
                         className="text-blue-600 hover:text-blue-700 hover:underline"
                     >
-                        Sign up here
+                        Đăng ký
                     </Link>
                 </p>
                 <form onSubmit={handleSubmit(onSubmit)} className="my-8 text-sm">
@@ -73,12 +73,12 @@ const LoginPage = () => {
                     </div>
                     <div className="flex flex-col my-4">
                         <label htmlFor="password" className="text-gray-700">
-                            Password
+                            Mật khẩu
                         </label>
                         <Input
                             id="password"
                             type="password"
-                            placeholder="Enter your password"
+                            placeholder="Nhập mật khẩu của bạn"
                             {...register("password", {
                                 required: "Không được để trống mục này!",
                             })}
@@ -96,19 +96,19 @@ const LoginPage = () => {
                             className="mr-2 focus:ring-0 rounded"
                         />
                         <label htmlFor="remember_me" className="text-gray-700">
-                            I accept the{" "}
+                            Tôi chấp nhận các{" "}
                             <a
                                 href="/"
                                 className="text-blue-600 hover:text-blue-700 hover:underline"
                             >
-                                terms
+                                điều khoản
                             </a>{" "}
-                            and{" "}
+                            và{" "}
                             <a
                                 href="/"
                                 className="text-blue-600 hover:text-blue-700 hover:underline"
                             >
-                                privacy policy
+                                chính sách bảo mật.
                             </a>
                         </label>
                     </div>
@@ -118,14 +118,14 @@ const LoginPage = () => {
                             type="submit"
                             className="bg-blue-600 hover:bg-blue-700 px-8 py-2 text-white rounded-lg transition duration-150"
                         >
-                            Sign in
+                            Đăng nhập
                         </Button>
                     </div>
                 </form>
 
                 <div className="flex items-center justify-between my-4">
                     <div className="w-full h-[1px] bg-gray-300" />
-                    <span className="text-sm uppercase mx-6 text-gray-400">Or</span>
+                    <span className="text-sm uppercase mx-6 text-gray-400">Hoặc</span>
                     <div className="w-full h-[1px] bg-gray-300" />
                 </div>
 
@@ -162,7 +162,7 @@ const LoginPage = () => {
                                 fill="#ea4335"
                             />
                         </svg>
-                        <span>Sign in with Google</span>
+                        <span>Đăng nhập với Google</span>
                     </a>
                 </div>
             </div>

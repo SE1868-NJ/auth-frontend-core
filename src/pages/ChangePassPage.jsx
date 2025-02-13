@@ -42,17 +42,17 @@ const ChangePassPage = () => {
         <div className="w-full min-h-screen flex items-center justify-center bg-gray-100">
             <div className="w-full sm:w-5/6 md:w-2/3 lg:w-1/2 xl:w-1/3 2xl:w-1/4 bg-white p-8 shadow-lg rounded-lg">
                 <h2 className="text-center text-2xl font-bold tracking-wide text-gray-800">
-                    Change Password
+                    Thay đổi mật khẩu
                 </h2>
                 <form onSubmit={handleSubmit(onSubmit)} className="my-8 text-sm">
                     <div className="flex flex-col my-4">
                         <label htmlFor="password" className="text-gray-700">
-                            Current Password
+                            Mật khẩu hiện tại
                         </label>
                         <Input
                             id="password"
                             type="password"
-                            placeholder="Enter your password"
+                            placeholder="Nhập mật khẩu của bạn"
                             {...register("password", {
                                 required: "Không được để trống mục này!",
                             })}
@@ -64,12 +64,12 @@ const ChangePassPage = () => {
                     </div>
                     <div className="flex flex-col my-4">
                         <label htmlFor="newpassword" className="text-gray-700">
-                            New Password
+                            Mật khẩu mới
                         </label>
                         <Input
                             id="newpassword"
                             type="newpassword"
-                            placeholder="Enter your password"
+                            placeholder="Nhập mật khẩu của bạn"
                             {...register("newpassword", {
                                 required: "Không được để trống mục này!",
                             })}
@@ -81,12 +81,12 @@ const ChangePassPage = () => {
                     </div>
                     <div className="flex flex-col my-4">
                         <label htmlFor="passwordconfirmation" className="text-gray-700">
-                            Password Confirmation
+                            Xác nhận mật khẩu
                         </label>
                         <Input
                             id="passwordconfirmation"
                             type="passwordconfirmation"
-                            placeholder="Enter your password again"
+                            placeholder="Nhập lại mật khẩu của bạn"
                             {...register("passwordconfirmation", {
                                 required: "Không được để trống mục này!",
                             })}
@@ -102,14 +102,14 @@ const ChangePassPage = () => {
                             type="submit"
                             className="bg-blue-600 hover:bg-blue-700 px-8 py-2 text-white rounded-lg transition duration-150"
                         >
-                            Change Password
+                            Thay đổi mật khẩu
                         </Button>
                     </div>
                 </form>
 
                 <div className="flex items-center justify-between my-4">
                     <div className="w-full h-[1px] bg-gray-300" />
-                    <span className="text-sm uppercase mx-6 text-gray-400">Or</span>
+                    <span className="text-sm uppercase mx-6 text-gray-400">Hoặc</span>
                     <div className="w-full h-[1px] bg-gray-300" />
                 </div>
 
@@ -146,7 +146,7 @@ const ChangePassPage = () => {
                                 fill="#ea4335"
                             />
                         </svg>
-                        <span>Sign in with Google</span>
+                        <span>Đăng nhập với Google</span>
                     </a>
                 </div>
             </div>
