@@ -5,17 +5,19 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useCurrentUser } from "../hooks/useCurrentUser";
 import AuthService from "../services/Auth";
+import { useUserStore } from "../stores/UserStore";
 
 const LoginPage = () => {
     const { error } = useCurrentUser();
+    const { setToken } = useUserStore();
     const { register, handleSubmit, formState } = useForm();
     const { errors } = formState;
     const navigate = useNavigate();
 
     //  if authenticated, navigate to dashboard
     useEffect(() => {
-        if (!error) navigate("/main");
-    }, [error, navigate]);
+        if (!errors) navigate("/main");
+    }, [errors, navigate]);
 
     const onSubmit = async (data) => {
         // destructuring
@@ -39,13 +41,13 @@ const LoginPage = () => {
     };
 
     return (
-        <div className="w-full min-h-screen flex items-center justify-center bg-gray-100">
-            <div className="w-full sm:w-5/6 md:w-2/3 lg:w-1/2 xl:w-1/3 2xl:w-1/4 bg-white p-8 shadow-lg rounded-lg">
-                <h2 className="text-center text-2xl font-bold tracking-wide text-gray-800">
+        <div className="flex items-center justify-center w-full min-h-screen bg-gray-100">
+            <div className="w-full p-8 bg-white rounded-lg shadow-lg sm:w-5/6 md:w-2/3 lg:w-1/2 xl:w-1/3 2xl:w-1/4">
+                <h2 className="text-2xl font-bold tracking-wide text-center text-gray-800">
                     Sign In
                 </h2>
-                <p className="text-center text-sm text-gray-600 mt-2">
-                    You don&apost; have an account?{" "}
+                <p className="mt-2 text-sm text-center text-gray-600">
+                    You don&apost;t have an account?{" "}
                     <Link
                         to="/signup"
                         className="text-blue-600 hover:text-blue-700 hover:underline"
@@ -67,7 +69,7 @@ const LoginPage = () => {
                             })}
                             className="mt-2"
                         />
-                        <p className="text-red-500 text-xs mt-1">
+                        <p className="mt-1 text-xs text-red-500">
                             {Boolean(errors?.email?.message) && errors?.email?.message}
                         </p>
                     </div>
@@ -84,7 +86,7 @@ const LoginPage = () => {
                             })}
                             className="mt-2"
                         />
-                        <p className="text-red-500 text-xs mt-1">
+                        <p className="mt-1 text-xs text-red-500">
                             {Boolean(errors?.password?.message) && errors?.password?.message}
                         </p>
                     </div>
@@ -93,7 +95,7 @@ const LoginPage = () => {
                         <input
                             type="checkbox"
                             id="remember_me"
-                            className="mr-2 focus:ring-0 rounded"
+                            className="mr-2 rounded focus:ring-0"
                         />
                         <label htmlFor="remember_me" className="text-gray-700">
                             I accept the{" "}
@@ -113,10 +115,10 @@ const LoginPage = () => {
                         </label>
                     </div>
 
-                    <div className="my-4 flex items-center justify-end">
+                    <div className="flex items-center justify-end my-4">
                         <Button
                             type="submit"
-                            className="bg-blue-600 hover:bg-blue-700 px-8 py-2 text-white rounded-lg transition duration-150"
+                            className="px-8 py-2 text-white transition duration-150 bg-blue-600 rounded-lg hover:bg-blue-700"
                         >
                             Sign in
                         </Button>
@@ -125,14 +127,14 @@ const LoginPage = () => {
 
                 <div className="flex items-center justify-between my-4">
                     <div className="w-full h-[1px] bg-gray-300" />
-                    <span className="text-sm uppercase mx-6 text-gray-400">Or</span>
+                    <span className="mx-6 text-sm text-gray-400 uppercase">Or</span>
                     <div className="w-full h-[1px] bg-gray-300" />
                 </div>
 
                 <div className="text-sm">
                     <a
                         href="/"
-                        className="flex items-center justify-center space-x-2 text-gray-600 my-2 py-2 bg-gray-100 hover:bg-gray-200 rounded"
+                        className="flex items-center justify-center py-2 my-2 space-x-2 text-gray-600 bg-gray-100 rounded hover:bg-gray-200"
                     >
                         <svg
                             className="w-5 h-5"

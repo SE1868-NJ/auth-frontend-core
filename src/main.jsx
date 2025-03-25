@@ -9,7 +9,6 @@ import { MantineProvider, createTheme } from "@mantine/core";
 import { DatesProvider } from "@mantine/dates";
 import { Notifications } from "@mantine/notifications";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { vi } from "date-fns/locale";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Layout from "./components/Layout.jsx";
 import ChangePassPage from "./pages/ChangePassPage.jsx";
@@ -17,6 +16,7 @@ import ErrorPage from "./pages/ErrorPage.jsx";
 import ForgotPassPage from "./pages/ForgotPassPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import OTPPage from "./pages/OTPPage.jsx";
+import OperatorsDetailPage from "./pages/OperatorsDetailPage.jsx";
 import OperatorsPage from "./pages/OperatorsPage.jsx";
 import RolesPage from "./pages/RolesPage.jsx";
 import SignUpPage from "./pages/SignUpPage.jsx";
@@ -66,6 +66,10 @@ const router = createBrowserRouter([
             {
                 path: "/main/operators",
                 element: <OperatorsPage />,
+            },
+            {
+                path: "/main/operators/:id",
+                element: <OperatorsDetailPage />,
             },
             {
                 path: "*",

@@ -1,192 +1,146 @@
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import instance from "../lib/axios";
 
 const OperatorsDetailPage = () => {
     const { state } = useLocation();
     const navigate = useNavigate();
+    const { id } = useParams();
 
     const [operator, setOperator] = useState(state?.operator || null);
-    const {
-        register,
-        handleSubmit,
-        reset,
-        formState: { errors },
-    } = useForm();
 
     useEffect(() => {
-        if (operator) {
-            reset(operator);
+        if (!operator) {
+            const fetchOperator = async () => {
+                try {
+                    const response = await instance.get(`/operators/${id}`);
+                    setOperator(response.data);
+                } catch (error) {
+                    console.error("Lỗi khi tải dữ liệu operator:", error);
+                }
+            };
+            fetchOperator();
         }
-    }, [operator, reset]);
+    }, [operator, id]);
 
-    const onSubmit = (data) => {
-        alert("Operator details updated successfully!");
-        navigate("/main/operators");
-    };
-
-    if (!operator) return <div>Loading...</div>;
+    if (!operator) return <div>Đang tải...</div>;
 
     return (
-        <div className="container mx-auto p-6">
-            <h1 className="text-2xl font-bold mb-6">Operator Details</h1>
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <div className="container p-6 mx-auto">
+            <h1 className="mb-6 text-2xl font-bold">Chi tiết Operator</h1>
+            <div className="space-y-6">
                 <div className="grid grid-cols-2 gap-4">
-                    <div>
-                        <label
-                            htmlFor="firstname"
-                            className="block text-sm font-medium text-gray-700"
-                        >
-                            First Name
-                        </label>
-                        <input
-                            id="firstname"
-                            type="text"
-                            defaultValue={operator.firstname}
-                            {...register("firstname", { required: "First name is required" })}
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    {/* Avatar */}
+                    <div className="flex justify-center col-span-2">
+                        <img
+                            src={operator.avatar}
+                            alt="Avatar"
+                            className="w-32 h-32 border rounded-full"
                         />
-                        {errors.firstname && (
-                            <p className="text-red-500 text-sm">{errors.firstname.message}</p>
-                        )}
-                    </div>
-                    <div>
-                        <label
-                            htmlFor="lastname"
-                            className="block text-sm font-medium text-gray-700"
-                        >
-                            Last Name
-                        </label>
-                        <input
-                            id="lastname"
-                            type="text"
-                            defaultValue={operator.lastname}
-                            {...register("lastname", { required: "Last name is required" })}
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        />
-                        {errors.lastname && (
-                            <p className="text-red-500 text-sm">{errors.lastname.message}</p>
-                        )}
                     </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
+                    {/* Họ và Tên */}
+                    <div>
+                        <label
+                            htmlFor="fullName"
+                            inputMode="text"
+                            className="block text-sm font-medium text-gray-700"
+                        >
+                            Họ và Tên
+                        </label>
+                        <p className="px-3 py-2 mt-1 bg-gray-100 border rounded-md">{`${operator.lastName} ${operator.firstName}`}</p>
+                    </div>
+                    {/* Email */}
                     <div>
                         <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                             Email
                         </label>
-                        <input
-                            id="email"
-                            type="email"
-                            defaultValue={operator.email}
-                            {...register("email", {
-                                required: "Email is required",
-                                pattern: {
-                                    value: /^\S+@\S+\.\S+$/,
-                                    message: "Invalid email format",
-                                },
-                            })}
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        />
-                        {errors.email && (
-                            <p className="text-red-500 text-sm">{errors.email.message}</p>
-                        )}
-                    </div>
-                    <div>
-                        <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
-                            Phone
-                        </label>
-                        <input
-                            id="phone"
-                            type="tel"
-                            defaultValue={operator.phone}
-                            {...register("phone", { required: "Phone number is required" })}
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        />
-                        {errors.phone && (
-                            <p className="text-red-500 text-sm">{errors.phone.message}</p>
-                        )}
+                        <p className="px-3 py-2 mt-1 bg-gray-100 border rounded-md">
+                            {operator.email}
+                        </p>
                     </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
+                    {/* Email cá nhân */}
                     <div>
-                        <label htmlFor="dob" className="block text-sm font-medium text-gray-700">
-                            Date of Birth
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                            Email cá nhân
                         </label>
-                        <input
-                            id="dob"
-                            type="date"
-                            defaultValue={operator.dob}
-                            {...register("dob", { required: "Date of birth is required" })}
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        />
-                        {errors.dob && <p className="text-red-500 text-sm">{errors.dob.message}</p>}
+                        <p className="px-3 py-2 mt-1 bg-gray-100 border rounded-md">
+                            {operator.personalEmail}
+                        </p>
                     </div>
+                    {/* Số điện thoại */}
+                    <div>
+                        <label
+                            htmlFor="phoneNumber"
+                            className="block text-sm font-medium text-gray-700"
+                        >
+                            Số điện thoại
+                        </label>
+                        <p className="px-3 py-2 mt-1 bg-gray-100 border rounded-md">
+                            {operator.phoneNumber}
+                        </p>
+                    </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                    {/* Ngày sinh */}
+                    <div>
+                        <label
+                            htmlFor="dateOfBirth"
+                            className="block text-sm font-medium text-gray-700"
+                        >
+                            Ngày sinh
+                        </label>
+                        <p className="px-3 py-2 mt-1 bg-gray-100 border rounded-md">
+                            {operator.dateOfBirth}
+                        </p>
+                    </div>
+                    {/* Giới tính */}
                     <div>
                         <label htmlFor="gender" className="block text-sm font-medium text-gray-700">
-                            Gender
+                            Giới tính
                         </label>
-                        <select
-                            id="gender"
-                            defaultValue={operator.gender}
-                            {...register("gender", { required: "Gender is required" })}
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        >
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Other">Other</option>
-                        </select>
-                        {errors.gender && (
-                            <p className="text-red-500 text-sm">{errors.gender.message}</p>
-                        )}
+                        <p className="px-3 py-2 mt-1 bg-gray-100 border rounded-md">
+                            {operator.gender === "male"
+                                ? "Nam"
+                                : operator.gender === "female"
+                                  ? "Nữ"
+                                  : "Khác"}
+                        </p>
                     </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
+                    {/* Trạng thái */}
                     <div>
                         <label htmlFor="status" className="block text-sm font-medium text-gray-700">
-                            Status
+                            Trạng thái
                         </label>
-                        <select
-                            id="status"
-                            defaultValue={operator.status}
-                            {...register("status", { required: "Status is required" })}
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        >
-                            <option value="Active">Active</option>
-                            <option value="Deactive">Deactive</option>
-                        </select>
-                        {errors.status && (
-                            <p className="text-red-500 text-sm">{errors.status.message}</p>
-                        )}
+                        <p className="px-3 py-2 mt-1 bg-gray-100 border rounded-md">
+                            {operator.status === "active" ? "Hoạt động" : "Không hoạt động"}
+                        </p>
                     </div>
+                    {/* Role */}
                     <div>
                         <label htmlFor="role" className="block text-sm font-medium text-gray-700">
-                            Role
+                            Mã vai trò
                         </label>
-                        <input
-                            id="role"
-                            type="text"
-                            defaultValue={operator.role}
-                            disabled
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 bg-gray-100 sm:text-sm"
-                        />
+                        <p className="px-3 py-2 mt-1 bg-gray-100 border rounded-md">
+                            {operator.roleCode}
+                        </p>
                     </div>
                 </div>
-                <div className="flex justify-between items-center">
-                    <button
-                        type="submit"
-                        className="bg-blue-500 text-white py-2 px-6 rounded-md hover:bg-blue-600 transition duration-300"
-                    >
-                        Update Details
-                    </button>
+                <div className="flex justify-end">
                     <button
                         type="button"
                         onClick={() => navigate("/main/operators")}
-                        className="bg-gray-300 text-black py-2 px-6 rounded-md hover:bg-gray-400 transition duration-300"
+                        className="px-6 py-2 bg-gray-300 rounded-md"
                     >
-                        Back to Operators
+                        Quay lại
                     </button>
                 </div>
-            </form>
+            </div>
         </div>
     );
 };

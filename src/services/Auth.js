@@ -3,7 +3,7 @@ import instance from "../lib/axios";
 const AuthService = {
     async login(email, password) {
         const token = await instance
-            .post("/auth/login", {
+            .post("/auth/login/user", {
                 email,
                 password,
             })
@@ -45,6 +45,39 @@ const AuthService = {
             .then((res) => {
                 console.log(res);
             });
+    },
+    async addOperator(data) {
+        const {
+            firstName,
+            lastName,
+            personalEmail,
+            email,
+            password,
+            phoneNumber,
+            dateOfBirth,
+            gender,
+            status,
+            roleCode,
+        } = data;
+        console.log("Dữ liệu gửi lên API:", data);
+
+        const operator = await instance
+            .post("/operators/create", {
+                firstName,
+                lastName,
+                personalEmail,
+                email,
+                password,
+                phoneNumber,
+                dateOfBirth,
+                gender,
+                status,
+                roleCode,
+            })
+            .then(({ data }) => {
+                return data;
+            });
+        return operator;
     },
 };
 

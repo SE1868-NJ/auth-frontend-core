@@ -28,6 +28,7 @@
         "@tabler/icons-react": "^3.28.1",
         "@tanstack/react-query": "4",
         "@tanstack/react-router": "^1.95.6",
+        "auth-frontend-core": "link:",
         "axios": "^1.7.9",
         "date-fns": "^4.1.0",
         "dayjs": "^1.11.13",
