@@ -1,12 +1,16 @@
 import { Button, Input, NativeSelect } from "@mantine/core";
 import { DateInput } from "@mantine/dates";
 import { notifications } from "@mantine/notifications";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import AuthService from "../services/Auth";
+import { useUserStore } from "../stores/UserStore";
 
 const SignUpPage = () => {
+    const [date, setDate] = useState(null);
     const { register, handleSubmit, formState } = useForm();
+    const { setEmail } = useUserStore();
     const { errors } = formState;
     const navigate = useNavigate();
 
@@ -16,7 +20,10 @@ const SignUpPage = () => {
                 notifications.show({
                     title: "Đăng ký thành công!",
                 });
-                navigate("/main");
+                setEmail(data?.email);
+                // navigate to otp page
+                navigate("/otp");
+                return user;
             })
             .catch((err) => {
                 if (err.status === 409) {
@@ -161,7 +168,7 @@ const SignUpPage = () => {
                                 Ngày sinh
                             </label>
                             {/* <DateInput placeholder="01-01-2000" /> */}
-                            {/* <DateInput value={date} onChange={setDate} /> */}
+                            <DateInput value={date} onChange={setDate} />
 
                             <p className="text-red-500 text-xs mt-1">
                                 {Boolean(errors?.passwordconfirmation?.message) &&

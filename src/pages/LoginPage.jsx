@@ -3,10 +3,12 @@ import { notifications } from "@mantine/notifications";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import { useCurrentUser } from "../hooks/useCurrentUser";
 import AuthService from "../services/Auth";
 import { useUserStore } from "../stores/UserStore";
 
 const LoginPage = () => {
+    const { error } = useCurrentUser();
     const { setToken } = useUserStore();
     const { register, handleSubmit, formState } = useForm();
     const { errors } = formState;
