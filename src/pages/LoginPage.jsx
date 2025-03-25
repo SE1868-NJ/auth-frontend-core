@@ -3,19 +3,19 @@ import { notifications } from "@mantine/notifications";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { useCurrentUser } from "../hooks/useCurrentUser";
 import AuthService from "../services/Auth";
+import { useUserStore } from "../stores/UserStore";
 
 const LoginPage = () => {
-    const { error } = useCurrentUser();
+    const { setToken } = useUserStore();
     const { register, handleSubmit, formState } = useForm();
     const { errors } = formState;
     const navigate = useNavigate();
 
     //  if authenticated, navigate to dashboard
     useEffect(() => {
-        if (!error) navigate("/main");
-    }, [error, navigate]);
+        if (!errors) navigate("/main");
+    }, [errors, navigate]);
 
     const onSubmit = async (data) => {
         // destructuring
@@ -45,7 +45,7 @@ const LoginPage = () => {
                     Sign In
                 </h2>
                 <p className="mt-2 text-sm text-center text-gray-600">
-                    You don&apost; have an account?{" "}
+                    You don&apost;t have an account?{" "}
                     <Link
                         to="/signup"
                         className="text-blue-600 hover:text-blue-700 hover:underline"
