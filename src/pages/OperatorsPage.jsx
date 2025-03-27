@@ -8,6 +8,7 @@ import AuthService from "../services/Auth";
 
 const OperatorsPage = () => {
     const [operators, setOperators] = useState([]);
+    const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
 
     const translateStatus = (status) => {
@@ -22,7 +23,7 @@ const OperatorsPage = () => {
         const fetchOperators = async () => {
             try {
                 const response = await instance.get("/operators/list");
-                console.log("API Response:", response.data);
+                console.log("API Response List:", response.data);
 
                 if (Array.isArray(response.data.data)) {
                     setOperators(response.data.data);
@@ -57,16 +58,11 @@ const OperatorsPage = () => {
     const onSubmit = async (data) => {
         try {
             const response = await AuthService.addOperator(data);
-
-            if (response.success && response.data) {
-                setOperators((prevOperators) => [...prevOperators, response.data]);
-
-                close();
-            } else {
-                console.error("Failed to add operator:", response.message);
-            }
+            console.log("API Response:", response);
+            setErrorMessage("");
         } catch (error) {
             console.error("Error adding operator:", error);
+            setErrorMessage(error.message);
         }
     };
 
@@ -94,7 +90,7 @@ const OperatorsPage = () => {
                         {/* Email */}
                         <div className="flex flex-col">
                             <label htmlFor="email" className="text-sm font-semibold text-gray-700">
-                                Email
+                                Email <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="email"
@@ -107,7 +103,6 @@ const OperatorsPage = () => {
                                 <span className="text-sm text-red-500">{errors.email.message}</span>
                             )}
                         </div>
-
                         {/* Password (hidden) */}
                         <input type="hidden" {...register("password")} />
 
@@ -117,7 +112,7 @@ const OperatorsPage = () => {
                                 htmlFor="personalEmail"
                                 className="text-sm font-semibold text-gray-700"
                             >
-                                Email cá nhân
+                                Email cá nhân <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="email"
@@ -141,7 +136,7 @@ const OperatorsPage = () => {
                                 htmlFor="firstName"
                                 className="text-sm font-semibold text-gray-700"
                             >
-                                Họ
+                                Họ <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"
@@ -163,7 +158,7 @@ const OperatorsPage = () => {
                                 htmlFor="lastName"
                                 className="text-sm font-semibold text-gray-700"
                             >
-                                Tên
+                                Tên <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"
@@ -185,7 +180,7 @@ const OperatorsPage = () => {
                                 htmlFor="phoneNumber"
                                 className="text-sm font-semibold text-gray-700"
                             >
-                                Số điện thoại
+                                Số điện thoại <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"
@@ -209,27 +204,22 @@ const OperatorsPage = () => {
                                 htmlFor="dateOfBirth"
                                 className="text-sm font-semibold text-gray-700"
                             >
-                                Ngày sinh
+                                Ngày sinh<span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="date"
                                 id="dateOfBirth"
                                 {...register("dateOfBirth", {
-                                    required: "Vui lòng chọn ngày sinh",
+                                    required: "Ngày sinh không được để trống",
                                 })}
                                 className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400"
                             />
-                            {errors.dateOfBirth && (
-                                <span className="text-sm text-red-500">
-                                    {errors.dateOfBirth.message}
-                                </span>
-                            )}
                         </div>
 
                         {/* Gender */}
                         <div className="flex flex-col">
                             <label htmlFor="gender" className="text-sm font-semibold text-gray-700">
-                                Giới tính
+                                Giới tính <span className="text-red-500">*</span>
                             </label>
                             <select
                                 id="gender"
@@ -250,6 +240,10 @@ const OperatorsPage = () => {
 
                     {/* Hidden Fields */}
                     <input type="hidden" {...register("status")} />
+
+                    {errorMessage && (
+                        <div className="mt-2 text-sm text-red-500">{errorMessage}</div>
+                    )}
 
                     {/* Submit Button */}
                     <div className="flex justify-end">
