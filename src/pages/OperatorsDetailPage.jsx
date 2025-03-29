@@ -28,7 +28,6 @@ const OperatorsDetailPage = () => {
         }
     }, [operator, id]);
 
-    // Khi chỉnh sửa, lưu thông tin đã thay đổi
     const handleChange = (e) => {
         const { name, value } = e.target;
         setUpdatedOperator((prevState) => ({
@@ -37,7 +36,6 @@ const OperatorsDetailPage = () => {
         }));
     };
 
-    // Gửi yêu cầu cập nhật thông tin
     const handleUpdate = async () => {
         try {
             const response = await instance.patch(
@@ -45,7 +43,7 @@ const OperatorsDetailPage = () => {
                 updatedOperator,
             );
             setOperator(response.data.operator);
-            setIsEditing(false); // Dừng chỉnh sửa
+            setIsEditing(false);
         } catch (error) {
             console.error("Lỗi khi cập nhật operator:", error);
         }
@@ -169,15 +167,6 @@ const OperatorsDetailPage = () => {
                         </label>
                         <p className="px-3 py-2 mt-1 bg-gray-100 border rounded-md">
                             {operator.status === "active" ? "Hoạt động" : "Không hoạt động"}
-                        </p>
-                    </div>
-                    {/* Role */}
-                    <div>
-                        <label htmlFor="role" className="block text-sm font-medium text-gray-700">
-                            Mã vai trò
-                        </label>
-                        <p className="px-3 py-2 mt-1 bg-gray-100 border rounded-md">
-                            {operator.roleCode}
                         </p>
                     </div>
                 </div>

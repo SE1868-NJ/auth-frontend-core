@@ -1,5 +1,6 @@
 import { Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { notifications } from "@mantine/notifications";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -10,6 +11,7 @@ const OperatorsPage = () => {
     const [operators, setOperators] = useState([]);
     const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
     const translateStatus = (status) => {
         if (status === "active") return "Hoạt động";
@@ -57,12 +59,33 @@ const OperatorsPage = () => {
 
     const onSubmit = async (data) => {
         try {
+            setLoading(true); // Bắt đầu loading
             const response = await AuthService.addOperator(data);
-            console.log("API Response:", response);
-            setErrorMessage("");
+
+            if (response.status === 201) {
+                notifications.show({
+                    title: "Thêm Operator thành công",
+                    message: "Operator đã được thêm thành công!",
+                    color: "green",
+                });
+            }
         } catch (error) {
-            console.error("Error adding operator:", error);
-            setErrorMessage(error.message);
+            console.log("Error adding operator:", error.message);
+            if (error.message === "1") {
+                notifications.show({
+                    title: "Lỗi tạo Operator",
+                    message: "Email này đã được đăng ký bởi một tài khoản khác",
+                    color: "red",
+                });
+            } else if (error.message === "2") {
+                notifications.show({
+                    title: "Lỗi tạo Operator",
+                    message: "Email cá nhân này đã được đăng kí bởi một tài khoản khác",
+                    color: "red",
+                });
+            }
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -72,6 +95,34 @@ const OperatorsPage = () => {
 
     const translateGender = (gender) => {
         return gender === "male" ? "Nam" : gender === "female" ? "Nữ" : "Khác";
+    };
+
+    const calculateAge = (dateOfBirth) => {
+        const birthDate = new Date(dateOfBirth);
+        const currentDate = new Date();
+        const age = currentDate.getFullYear() - birthDate.getFullYear();
+        const month = currentDate.getMonth() - birthDate.getMonth();
+
+        if (month < 0 || (month === 0 && currentDate.getDate() < birthDate.getDate())) {
+            return age - 1;
+        }
+        return age;
+    };
+
+    const validateDateOfBirth = (value) => {
+        const selectedDate = new Date(value);
+        const currentDate = new Date();
+
+        if (selectedDate > currentDate) {
+            return "Ngày sinh không thể lớn hơn ngày hiện tại";
+        }
+
+        const age = calculateAge(value);
+        if (age < 18) {
+            return "Operator phải đủ 18 tuổi";
+        }
+
+        return true;
     };
 
     return (
@@ -95,7 +146,13 @@ const OperatorsPage = () => {
                             <input
                                 type="email"
                                 id="email"
-                                {...register("email", { required: "Email không được để trống" })}
+                                {...register("email", {
+                                    required: "Email không được để trống",
+                                    pattern: {
+                                        value: /^[a-zA-Z0-9._%+-]+@gmail\.com$/,
+                                        message: "Email phải có định dạng @gmail.com",
+                                    },
+                                })}
                                 placeholder="Nhập email"
                                 className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400"
                             />
@@ -119,6 +176,10 @@ const OperatorsPage = () => {
                                 id="personalEmail"
                                 {...register("personalEmail", {
                                     required: "Email cá nhân không được để trống",
+                                    pattern: {
+                                        value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                                        message: "Email cá nhân không hợp lệ",
+                                    },
                                 })}
                                 placeholder="Nhập email cá nhân"
                                 className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400"
@@ -187,6 +248,11 @@ const OperatorsPage = () => {
                                 id="phoneNumber"
                                 {...register("phoneNumber", {
                                     required: "Số điện thoại không được để trống",
+                                    pattern: {
+                                        value: /^0\d{9}$/, // Kiểm tra số điện thoại bắt đầu bằng 0 và có 10 chữ số
+                                        message:
+                                            "Số điện thoại phải bắt đầu bằng 0 và có 10 chữ số",
+                                    },
                                 })}
                                 placeholder="Nhập số điện thoại"
                                 className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400"
@@ -211,9 +277,15 @@ const OperatorsPage = () => {
                                 id="dateOfBirth"
                                 {...register("dateOfBirth", {
                                     required: "Ngày sinh không được để trống",
+                                    validate: validateDateOfBirth,
                                 })}
                                 className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400"
                             />
+                            {errors.dateOfBirth && (
+                                <span className="text-sm text-red-500">
+                                    {errors.dateOfBirth.message}
+                                </span>
+                            )}
                         </div>
 
                         {/* Gender */}
@@ -249,6 +321,7 @@ const OperatorsPage = () => {
                     <div className="flex justify-end">
                         <button
                             type="submit"
+                            disabled={loading}
                             className="px-6 py-2 text-white transition-all bg-blue-600 rounded-lg shadow-md hover:bg-blue-700"
                         >
                             Thêm Operator

@@ -80,6 +80,7 @@ const AuthService = {
             return operator.data; // Nếu thành công, trả về dữ liệu
         } catch (error) {
             console.error("Error adding operator:", error);
+            throw new Error(error.response?.data.code);
         }
     },
 };
