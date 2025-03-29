@@ -18,8 +18,7 @@ const SignUpPage = () => {
         const user = await AuthService.register(data, date)
             .then((user) => {
                 notifications.show({
-                    title: "Đăng ký tải khoản thành công!",
-                    message: "Đang chuyển hướng đến trang đăng nhập!",
+                    title: "Đăng ký thành công!",
                 });
                 setEmail(data?.email);
                 // navigate to otp page

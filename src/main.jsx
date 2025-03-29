@@ -9,7 +9,6 @@ import { MantineProvider, createTheme } from "@mantine/core";
 import { DatesProvider } from "@mantine/dates";
 import { Notifications } from "@mantine/notifications";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { vi } from "date-fns/locale";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Layout from "./components/Layout.jsx";
 import ChangePassPage from "./pages/ChangePassPage.jsx";

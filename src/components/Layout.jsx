@@ -1,8 +1,6 @@
 import { AppShell } from "@mantine/core";
 import { People } from "iconsax-react";
 import { UserEdit } from "iconsax-react";
-import { ArrowLeft } from "iconsax-react";
-import { ArrowRight } from "iconsax-react";
 import { Logout } from "iconsax-react";
 import { useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
