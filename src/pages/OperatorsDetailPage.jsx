@@ -8,6 +8,11 @@ const OperatorsDetailPage = () => {
     const { id } = useParams();
 
     const [operator, setOperator] = useState(state?.operator || null);
+    const [isEditing, setIsEditing] = useState(false);
+    const [updatedOperator, setUpdatedOperator] = useState({
+        phoneNumber: "",
+        personalEmail: "",
+    });
 
     useEffect(() => {
         if (!operator) {
@@ -22,6 +27,27 @@ const OperatorsDetailPage = () => {
             fetchOperator();
         }
     }, [operator, id]);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setUpdatedOperator((prevState) => ({
+            ...prevState,
+            [name]: value,
+        }));
+    };
+
+    const handleUpdate = async () => {
+        try {
+            const response = await instance.patch(
+                `/operators/update/contact/${id}`,
+                updatedOperator,
+            );
+            setOperator(response.data.operator);
+            setIsEditing(false);
+        } catch (error) {
+            console.error("Lỗi khi cập nhật operator:", error);
+        }
+    };
 
     if (!operator) return <div>Đang tải...</div>;
 
@@ -44,7 +70,6 @@ const OperatorsDetailPage = () => {
                     <div>
                         <label
                             htmlFor="fullName"
-                            inputMode="text"
                             className="block text-sm font-medium text-gray-700"
                         >
                             Họ và Tên
@@ -64,12 +89,25 @@ const OperatorsDetailPage = () => {
                 <div className="grid grid-cols-2 gap-4">
                     {/* Email cá nhân */}
                     <div>
-                        <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                        <label
+                            htmlFor="personalEmail"
+                            className="block text-sm font-medium text-gray-700"
+                        >
                             Email cá nhân
                         </label>
-                        <p className="px-3 py-2 mt-1 bg-gray-100 border rounded-md">
-                            {operator.personalEmail}
-                        </p>
+                        {isEditing ? (
+                            <input
+                                type="email"
+                                name="personalEmail"
+                                value={updatedOperator.personalEmail || operator.personalEmail}
+                                onChange={handleChange}
+                                className="px-3 py-2 mt-1 border rounded-md"
+                            />
+                        ) : (
+                            <p className="px-3 py-2 mt-1 bg-gray-100 border rounded-md">
+                                {operator.personalEmail}
+                            </p>
+                        )}
                     </div>
                     {/* Số điện thoại */}
                     <div>
@@ -79,9 +117,19 @@ const OperatorsDetailPage = () => {
                         >
                             Số điện thoại
                         </label>
-                        <p className="px-3 py-2 mt-1 bg-gray-100 border rounded-md">
-                            {operator.phoneNumber}
-                        </p>
+                        {isEditing ? (
+                            <input
+                                type="text"
+                                name="phoneNumber"
+                                value={updatedOperator.phoneNumber || operator.phoneNumber}
+                                onChange={handleChange}
+                                className="px-3 py-2 mt-1 border rounded-md"
+                            />
+                        ) : (
+                            <p className="px-3 py-2 mt-1 bg-gray-100 border rounded-md">
+                                {operator.phoneNumber}
+                            </p>
+                        )}
                     </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
@@ -121,17 +169,34 @@ const OperatorsDetailPage = () => {
                             {operator.status === "active" ? "Hoạt động" : "Không hoạt động"}
                         </p>
                     </div>
-                    {/* Role */}
-                    <div>
-                        <label htmlFor="role" className="block text-sm font-medium text-gray-700">
-                            Mã vai trò
-                        </label>
-                        <p className="px-3 py-2 mt-1 bg-gray-100 border rounded-md">
-                            {operator.roleCode}
-                        </p>
-                    </div>
                 </div>
-                <div className="flex justify-end">
+                <div className="flex justify-end space-x-2">
+                    {isEditing ? (
+                        <>
+                            <button
+                                type="button"
+                                onClick={handleUpdate}
+                                className="px-6 py-2 text-white bg-blue-600 rounded-md"
+                            >
+                                Lưu thay đổi
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => setIsEditing(false)}
+                                className="px-6 py-2 bg-gray-300 rounded-md"
+                            >
+                                Hủy
+                            </button>
+                        </>
+                    ) : (
+                        <button
+                            type="button"
+                            onClick={() => setIsEditing(true)}
+                            className="px-6 py-2 bg-yellow-300 rounded-md"
+                        >
+                            Chỉnh sửa
+                        </button>
+                    )}
                     <button
                         type="button"
                         onClick={() => navigate("/main/operators")}

@@ -61,8 +61,9 @@ const AuthService = {
         } = data;
         console.log("Dữ liệu gửi lên API:", data);
 
-        const operator = await instance
-            .post("/operators/create", {
+        try {
+            // Gửi yêu cầu tạo operator mới
+            const operator = await instance.post("/operators/create", {
                 firstName,
                 lastName,
                 personalEmail,
@@ -73,11 +74,14 @@ const AuthService = {
                 gender,
                 status,
                 roleCode,
-            })
-            .then(({ data }) => {
-                return data;
             });
-        return operator;
+
+            console.log("API Response:", operator.data);
+            return operator.data; // Nếu thành công, trả về dữ liệu
+        } catch (error) {
+            console.error("Error adding operator:", error);
+            throw new Error(error.response?.data.code);
+        }
     },
 };
 
